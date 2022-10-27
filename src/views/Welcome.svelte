@@ -1,4 +1,15 @@
 <script>
+  import Button from "../components/Button.svelte";
+
+  const categories = [
+    { id: 1, name: "Actors" },
+    { id: 2, name: "Athletes" },
+    { id: 3, name: "Comedians" },
+    { id: 4, name: "Creators" },
+    { id: 5, name: "Models" },
+    { id: 6, name: "Musicians" },
+    { id: 7, name: "Reality TV" },
+  ];
 </script>
 
 <div class="welcome">
@@ -11,6 +22,11 @@
       you can buy personalised video clips from everyone from Lindsay Lohan to Ice
       T. But who commands the highest price? Pick a category to play a game:
     </p>
+  </div>
+  <div>
+    {#each categories as category}
+      <Button>{category.name}</Button>
+    {/each}
   </div>
 </div>
 
