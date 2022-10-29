@@ -2,11 +2,17 @@
   import Welcome from "./views/Welcome.svelte";
 
   let state = "welcome";
+  
+  const gameStart = ({ detail }) => {
+    const selectedCategory =  detail.category;
+
+    console.log(selectedCategory)
+  };
 </script>
 
 <main>
   {#if state === "welcome"}
-    <Welcome />
+    <Welcome on:select={gameStart} />
   {:else if state === "playing"}
     <p>playing</p>
   {/if}
