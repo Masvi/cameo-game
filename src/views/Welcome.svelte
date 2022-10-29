@@ -24,7 +24,7 @@
   const loadCelebrities = async () => {
 
     const response = await fetch(
-      "https://cameo-explorer.netlifly.app/celebs.json"
+      "https://cameo-explorer.netlify.app/celebs.json"
     );
     const data = await response.json();
     console.log(data);
