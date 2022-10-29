@@ -1,6 +1,9 @@
 <script>
+  import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   import Button from "../components/Button.svelte";
+
+  let celebritiesPromise;
 
   const categories = [
     { slug: "actors", label: "Actors" },
@@ -15,8 +18,21 @@
   const dispatch = createEventDispatcher();
 
   const handleClick = (category) => {
-    dispatch('select', { category: category.target.innerText}); 
+    dispatch("select", { category: category.target.innerText });
   };
+
+  const loadCelebrities = async () => {
+
+    const response = await fetch(
+      "https://cameo-explorer.netlifly.app/celebs.json"
+    );
+    const data = await response.json();
+    console.log(data);
+  };
+
+  onMount(() => {
+    celebritiesPromise = loadCelebrities();
+  });
 </script>
 
 <div class="welcome">
