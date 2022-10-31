@@ -13,7 +13,7 @@ export const loadCelebrities = async () => {
     if (element.reviews >= 50) {
       subset.add(element);
       element.similar.forEach((id) => {
-        subset.add(lookup[id]);
+        subset.add(lookup.get(id));
       });
     }
   });
