@@ -1,8 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import { element } from "svelte/internal";
   import Button from "../components/Button.svelte";
+  import { loadCelebrities } from "../api/api.js";
 
   let celebritiesPromise;
 
@@ -17,35 +17,14 @@
   ];
 
   const dispatch = createEventDispatcher();
-
+  
   const handleClick = (category) => {
     dispatch("select", { category: category.target.innerText });
+    start();
   };
 
-  const loadCelebrities = async () => {
-    const response = await fetch(
-      "https://cameo-explorer.netlify.app/celebs.json"
-    );
-
-    const data = await response.json();
-
-    const lookup = new Map();
-    const subset = new Set();
-
-    data.forEach((element) => lookup.set(element.id, element));
-    data.forEach((element) => {
-      if (element.reviews >= 50) {
-        subset.add(element);
-        element.similar.forEach((id) => {
-          subset.add(lookup[id]);
-        });
-      }
-    });
-
-    return {
-      celebs: Array.from(subset),
-      lookup,
-    };
+  const start = async (e) => {
+    const { celebs, lookup } = await celebritiesPromise;
   };
 
   onMount(() => {
