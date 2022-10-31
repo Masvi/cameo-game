@@ -1,13 +1,20 @@
 <script>
   import Welcome from "./views/Welcome.svelte";
+  import { loadCelebrities } from "./api/api";
+  import { onMount } from "svelte";
 
   let state = "welcome";
-  
-  const gameStart = ({ detail }) => {
-    const selectedCategory =  detail.category;
+  let celebritiesPromise;
 
-    console.log(selectedCategory)
+  const gameStart = async ({ detail }) => {
+    const { celebs, lookup } = await celebritiesPromise;
+    const selectedCategory = detail.category.toLowerCase();
+    state = "playing";
   };
+
+  onMount(() => {
+    celebritiesPromise = loadCelebrities();
+  });
 </script>
 
 <main>

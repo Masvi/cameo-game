@@ -1,10 +1,6 @@
 <script>
-  import { onMount } from "svelte";
-  import { createEventDispatcher } from "svelte";
   import Button from "../components/Button.svelte";
-  import { loadCelebrities } from "../api/api.js";
-
-  let celebritiesPromise;
+  import { createEventDispatcher } from "svelte";
 
   const categories = [
     { slug: "actors", label: "Actors" },
@@ -17,19 +13,10 @@
   ];
 
   const dispatch = createEventDispatcher();
-  
+
   const handleClick = (category) => {
     dispatch("select", { category: category.target.innerText });
-    start();
   };
-
-  const start = async (e) => {
-    const { celebs, lookup } = await celebritiesPromise;
-  };
-
-  onMount(() => {
-    celebritiesPromise = loadCelebrities();
-  });
 </script>
 
 <div class="welcome">
