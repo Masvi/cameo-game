@@ -10,11 +10,10 @@
   let celebritiesPromise;
   let selectedCategory;
 
-  const gameStart = async ({ detail }) => {
+  const gameStart = async ({detail}) => {
     const { celebs, lookup } = await celebritiesPromise;
-    
     state = "playing";
-    selectedCategory = select(celebs, lookup, detail.category.toLowerCase());
+    selectedCategory = select(celebs, lookup, detail.category.slug);
   };
 
   onMount(() => {

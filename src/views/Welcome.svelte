@@ -15,7 +15,7 @@
   const dispatch = createEventDispatcher();
 
   const handleClick = (category) => {
-    dispatch("select", { category: category.target.innerText });
+    dispatch("select", { category: category });
   };
 </script>
 
@@ -32,7 +32,7 @@
   </div>
   <div class="welcome__categories">
     {#each categories as category}
-      <Button {handleClick}>{category.label}</Button>
+      <Button buttonValue={category} {handleClick} />
     {/each}
   </div>
 </div>

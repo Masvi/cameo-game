@@ -1,9 +1,10 @@
 <script>
   export let handleClick;
+  export let buttonValue;
 </script>
 
-<button class="base-button" on:click={handleClick}>
-  <slot />
+<button class="base-button" on:click={handleClick(buttonValue)}>
+ {buttonValue.label}
 </button>
 
 <style lang="scss">
