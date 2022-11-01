@@ -1,15 +1,20 @@
 <script>
   import Welcome from "./views/Welcome.svelte";
+  import Game from "./views/Game.svelte";
+
   import { loadCelebrities } from "./api/api";
   import { onMount } from "svelte";
+  import { select } from "./utils/select";
 
   let state = "welcome";
   let celebritiesPromise;
+  let selectedCategory;
 
   const gameStart = async ({ detail }) => {
     const { celebs, lookup } = await celebritiesPromise;
-    const selectedCategory = detail.category.toLowerCase();
+    
     state = "playing";
+    selectedCategory = select(celebs, lookup, detail.category.toLowerCase());
   };
 
   onMount(() => {
@@ -21,7 +26,7 @@
   {#if state === "welcome"}
     <Welcome on:select={gameStart} />
   {:else if state === "playing"}
-    <p>playing</p>
+    <Game selection={selectedCategory} />
   {/if}
 </main>
 
