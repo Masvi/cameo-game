@@ -23,3 +23,10 @@ export const loadCelebrities = async () => {
     lookup,
   };
 };
+
+export const loadCelebritiesDetails = async (celeb) => {
+  const response = await fetch(
+    `http://cameo-explorer.netlify.app/celebs/${celeb.id}.json`
+  );
+  return await response.json;
+};
