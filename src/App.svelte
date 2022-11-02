@@ -35,7 +35,6 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    height: 100%;
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;

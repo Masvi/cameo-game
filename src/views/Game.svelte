@@ -1,4 +1,5 @@
 <script>
+  import Card from "../components/Card.svelte";
   import { loadCelebritiesDetails } from "../api/api";
 
   export let selection;
@@ -17,13 +18,11 @@
   {#await promises[i] then [a, b]}
     <div class="game__container">
       <div class="game__box">
-        {a.name}
+        <Card celeb={a} />
       </div>
+      <div class="game__box">botao</div>
       <div class="game__box">
-        <button>same price</button>
-      </div>
-      <div class="game__box">
-        {b.name}
+        <Card celeb={b} />
       </div>
     </div>
   {:catch}
@@ -36,17 +35,29 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    align-items: center;
- 
+    margin: 1rem;
+    padding: 1rem;
+
     &__container {
       display: flex;
-      padding: 1rem;
-      background-color: aqua;
+      flex-flow: row wrap;
+
+      align-items: center;
+      justify-content: center;
     }
 
     &__box {
-      padding: 1rem;
-      background-color: antiquewhite;
+      display: flex;
+      flex-flow: row wrap;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .game {
+      &__container {
+        display: flex;
+        flex-flow: row;
+      }
     }
   }
 </style>
