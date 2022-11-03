@@ -1,8 +1,10 @@
 <script>
   import Card from "../components/Card.svelte";
   import { loadCelebritiesDetails } from "../api/api";
+  import Button from "../components/Button.svelte";
 
   export let selection;
+  let buttonValue = { label: "Same price" };
 
   const promises = selection.map((round) =>
     Promise.all([
@@ -10,6 +12,10 @@
       loadCelebritiesDetails(round.b),
     ])
   );
+
+  const handleSamePrice = () => {
+    console.log('click...');
+  };
 
   let i = 0;
 </script>
@@ -20,7 +26,9 @@
       <div class="game__box">
         <Card celeb={a} />
       </div>
-      <div class="game__box">botao</div>
+      <div class="game__box">
+        <Button handleClick={handleSamePrice} {buttonValue}>Same price</Button>
+      </div>
       <div class="game__box">
         <Card celeb={b} />
       </div>
@@ -41,7 +49,6 @@
     &__container {
       display: flex;
       flex-flow: row wrap;
-
       align-items: center;
       justify-content: center;
     }
