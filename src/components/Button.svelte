@@ -4,7 +4,7 @@
 </script>
 
 <button class="base-button" on:click={handleClick(buttonValue)}>
- {buttonValue.label}
+  {buttonValue.label}
 </button>
 
 <style lang="scss">

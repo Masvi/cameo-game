@@ -3,8 +3,13 @@
   import { loadCelebritiesDetails } from "../api/api";
   import Button from "../components/Button.svelte";
 
+  import { createEventDispatcher } from "svelte";
+
   export let selection;
   let buttonValue = { label: "Same price" };
+  let buttonHome = { label: "home" };
+
+  const dispatch = createEventDispatcher();
 
   const promises = selection.map((round) =>
     Promise.all([
@@ -13,14 +18,22 @@
     ])
   );
 
-  const handleSamePrice = () => {
-    console.log('click...');
+  const handleSamePrice = () => {};
+
+  const handleBackHome = () => {
+    dispatch("backHome");
   };
 
   let i = 0;
 </script>
 
 <div class="game">
+  <div class="game__header">
+    <Button handleClick={handleBackHome} buttonValue={buttonHome}>home</Button>
+  </div>
+  <p>
+    Tap on the more monetisable celebrety's face, or tap "same price" button
+  </p>
   {#await promises[i] then [a, b]}
     <div class="game__container">
       <div class="game__box">
@@ -43,8 +56,6 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    margin: 1rem;
-    padding: 1rem;
 
     &__container {
       display: flex;
@@ -56,6 +67,11 @@
     &__box {
       display: flex;
       flex-flow: row wrap;
+    }
+
+    &__header {
+      display: flex;
+      width: 100%;
     }
   }
 

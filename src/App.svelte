@@ -10,7 +10,7 @@
   let celebritiesPromise;
   let selectedCategory;
 
-  const gameStart = async ({detail}) => {
+  const gameStart = async ({ detail }) => {
     const { celebs, lookup } = await celebritiesPromise;
     state = "playing";
     selectedCategory = select(celebs, lookup, detail.category.slug);
@@ -25,7 +25,10 @@
   {#if state === "welcome"}
     <Welcome on:select={gameStart} />
   {:else if state === "playing"}
-    <Game selection={selectedCategory} />
+    <Game
+      selection={selectedCategory}
+      on:backHome={() => (state = "welcome")}
+    />
   {/if}
 </main>
 
