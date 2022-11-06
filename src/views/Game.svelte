@@ -19,8 +19,6 @@
     ])
   );
 
-  const handleSamePrice = () => {};
-
   const handleBackHome = () => {
     dispatch("backHome");
   };
@@ -29,7 +27,11 @@
     const result =
       Math.sign(left.price - right.price) === sign ? "correct" : "wrong";
 
-    console.log(result);
+    if (i < selection.length -1) {
+      i += 1;
+    } else {
+      // TODO: end game
+    }
   };
 
   let i = 0;
@@ -45,13 +47,15 @@
   {#await promises[i] then [a, b]}
     <div class="game__container">
       <div class="game__box">
-        <Card celeb={a} on:select={() =>submit(a, b, 1)} />
+        <Card celeb={a} on:select={() => submit(a, b, 1)} />
       </div>
       <div class="game__box">
-        <Button handleClick={handleSamePrice} {buttonValue}>Same price</Button>
+        <Button handleClick={() => submit(a, b, 0)} {buttonValue}
+          >Same price</Button
+        >
       </div>
       <div class="game__box">
-        <Card celeb={b} on:select={() =>submit(a, b, -1)} />
+        <Card celeb={b} on:select={() => submit(a, b, -1)} />
       </div>
     </div>
     <div class="game__container">
