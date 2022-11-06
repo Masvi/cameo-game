@@ -2,13 +2,14 @@
   import Card from "../components/Card.svelte";
   import { loadCelebritiesDetails } from "../api/api";
   import Button from "../components/Button.svelte";
-  import Wizard from "../components/Wizard.svelte";
+  import { sleep } from "../utils/utils";
 
   import { createEventDispatcher } from "svelte";
 
   export let selection;
   let buttonValue = { label: "Same price" };
   let buttonHome = { label: "home" };
+  let result;
 
   const dispatch = createEventDispatcher();
 
@@ -23,11 +24,14 @@
     dispatch("backHome");
   };
 
-  const submit = (left, right, sign) => {
-    const result =
-      Math.sign(left.price - right.price) === sign ? "correct" : "wrong";
+  const submit = async (left, right, sign) => {
+    result = Math.sign(left.price - right.price) === sign ? "correct" : "wrong";
 
-    if (i < selection.length -1) {
+    await sleep(1500);
+
+    result = null;
+
+    if (i < selection.length - 1) {
       i += 1;
     } else {
       // TODO: end game
@@ -58,12 +62,17 @@
         <Card celeb={b} on:select={() => submit(a, b, -1)} />
       </div>
     </div>
-    <div class="game__container">
-      <Wizard />
-    </div>
   {:catch}
     <p>error... load data</p>
   {/await}
+
+  {#if result}
+    <img
+      class="game__result"
+      alt="{result} anser"
+      src="src/assets/{result}.svg"
+    />
+  {/if}
 </div>
 
 <style lang="scss">
@@ -88,6 +97,14 @@
     &__header {
       display: flex;
       width: 100%;
+    }
+
+    &__result {
+      position: fixed;
+      width: 50vmin;
+      height: 50vmin;
+      left: calc(50vw - 25vmin);
+      opacity: 0.7;
     }
   }
 

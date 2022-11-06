@@ -1,4 +1,4 @@
-import { pick_random } from "./random";
+import { pick_random } from "./utils";
 
 const ROUNDS_PER_GAME = 10;
 
