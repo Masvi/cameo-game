@@ -34,7 +34,7 @@
     if (i < selection.length - 1) {
       i += 1;
     } else {
-      // TODO: end game
+      dispatch("backHome");
     }
   };
 
