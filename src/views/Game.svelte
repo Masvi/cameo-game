@@ -2,6 +2,7 @@
   import Card from "../components/Card.svelte";
   import { loadCelebritiesDetails } from "../api/api";
   import Button from "../components/Button.svelte";
+  import Wizard from "../components/Wizard.svelte";
 
   import { createEventDispatcher } from "svelte";
 
@@ -24,6 +25,13 @@
     dispatch("backHome");
   };
 
+  const submit = (left, right, sign) => {
+    const result =
+      Math.sign(left.price - right.price) === sign ? "correct" : "wrong";
+
+    console.log(result);
+  };
+
   let i = 0;
 </script>
 
@@ -37,14 +45,17 @@
   {#await promises[i] then [a, b]}
     <div class="game__container">
       <div class="game__box">
-        <Card celeb={a} />
+        <Card celeb={a} on:select={() =>submit(a, b, 1)} />
       </div>
       <div class="game__box">
         <Button handleClick={handleSamePrice} {buttonValue}>Same price</Button>
       </div>
       <div class="game__box">
-        <Card celeb={b} />
+        <Card celeb={b} on:select={() =>submit(a, b, -1)} />
       </div>
+    </div>
+    <div class="game__container">
+      <Wizard />
     </div>
   {:catch}
     <p>error... load data</p>
@@ -62,6 +73,7 @@
       flex-flow: row wrap;
       align-items: center;
       justify-content: center;
+      padding: 1rem;
     }
 
     &__box {

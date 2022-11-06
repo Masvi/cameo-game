@@ -1,10 +1,15 @@
 <script>
-  export let celeb;
+  import { createEventDispatcher } from "svelte";
 
-  console.log(celeb);
+  export let celeb;
+  const dispatch = createEventDispatcher();
 </script>
 
-<div class="card">
+<div
+  class="card"
+  on:keydown={() => dispatch("select")}
+  on:click={() => dispatch("select")}
+>
   <div class="card__img">
     <img src={celeb.image} alt="celeb" />
   </div>
@@ -20,19 +25,19 @@
 
 <style lang="scss">
   .card {
-    background-color: #fff;  
+    background-color: #fff;
     position: relative;
     border-radius: 12px;
     max-height: 500px;
     overflow: hidden;
     box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
     margin: 1rem;
+    cursor: pointer;
 
     &__img {
       width: 100%;
       background-size: cover;
       background-position: center;
-
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
     }
