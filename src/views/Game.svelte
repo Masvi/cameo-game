@@ -6,12 +6,16 @@
 
   import { createEventDispatcher } from "svelte";
 
+  const dispatch = createEventDispatcher();
+
   export let selection;
+
   let buttonValue = { label: "Same price" };
-  let buttonHome = { label: "home" };
+  let buttonHome = { label: "Back to main screen" };
   let result;
 
-  const dispatch = createEventDispatcher();
+  let i = 0;
+  let done = false;
 
   const promises = selection.map((round) =>
     Promise.all([
@@ -19,6 +23,9 @@
       loadCelebritiesDetails(round.b),
     ])
   );
+
+  const results = Array(selection.length);
+  $: score = results.filter((x) => x === "correct").length;
 
   const handleBackHome = () => {
     dispatch("backHome");
@@ -29,51 +36,58 @@
 
     await sleep(1500);
 
+    results[i] = result;
     result = null;
 
     if (i < selection.length - 1) {
       i += 1;
     } else {
-      dispatch("backHome");
+      done = true;
     }
   };
-
-  let i = 0;
 </script>
 
 <div class="game">
-  <div class="game__header">
-    <Button handleClick={handleBackHome} buttonValue={buttonHome}>home</Button>
-  </div>
-  <p>
-    Tap on the more monetisable celebrety's face, or tap "same price" button
-  </p>
-  {#await promises[i] then [a, b]}
-    <div class="game__container">
-      <div class="game__box">
-        <Card celeb={a} on:select={() => submit(a, b, 1)} />
-      </div>
-      <div class="game__box">
-        <Button handleClick={() => submit(a, b, 0)} {buttonValue}
-          >Same price</Button
-        >
-      </div>
-      <div class="game__box">
-        <Card celeb={b} on:select={() => submit(a, b, -1)} />
-      </div>
+  {#if done}
+    <div class="game__done">
+      <strong>{score}/{results.length}</strong>
+      <Button handleClick={handleBackHome} buttonValue={buttonHome} />
     </div>
-  {:catch}
-    <p>error... load data</p>
-  {/await}
-
-  {#if result}
-    <img
-      class="game__result"
-      alt="{result} anser"
-      src="src/assets/{result}.svg"
-    />
+  {:else}
+    <div class="game__header">
+      <Button handleClick={handleBackHome} buttonValue={buttonHome}>home</Button
+      >
+      <p>
+        Tap on the more monetisable celebrety's face, or tap "same price" button
+      </p>
+    </div>
+    {#await promises[i] then [a, b]}
+      <div class="game__container">
+        <div class="game__box">
+          <Card celeb={a} on:select={() => submit(a, b, 1)} />
+        </div>
+        <div class="game__box">
+          <Button handleClick={() => submit(a, b, 0)} {buttonValue}
+            >Same price</Button
+          >
+        </div>
+        <div class="game__box">
+          <Card celeb={b} on:select={() => submit(a, b, -1)} />
+        </div>
+      </div>
+    {:catch}
+      <p>error... load data</p>
+    {/await}
   {/if}
 </div>
+
+{#if result}
+  <img
+    class="game__result"
+    alt="{result} anser"
+    src="src/assets/{result}.svg"
+  />
+{/if}
 
 <style lang="scss">
   .game {
@@ -105,6 +119,10 @@
       height: 50vmin;
       left: calc(50vw - 25vmin);
       opacity: 0.7;
+    }
+
+    &__done {
+      background-color: red;
     }
   }
 
