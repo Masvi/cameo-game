@@ -2,7 +2,7 @@
   import Card from "../components/Card.svelte";
   import { loadCelebritiesDetails } from "../api/api";
   import Button from "../components/Button.svelte";
-  import { sleep } from "../utils/utils";
+  import { pick_random, sleep } from "../utils/utils";
 
   import { createEventDispatcher } from "svelte";
 
@@ -45,12 +45,23 @@
       done = true;
     }
   };
+
+  const feedbackMessage = (score) => {
+    if (score < 0.5)
+      return pick_random(["Ouch", `That wasn't very good`, "Must try harder"]);
+    if (score < 0.8) 
+      return pick_random(['Not bad', 'keep practicing!']);
+    if (score < 1) 
+      return pick_random(['So close!', 'Almost there!']);
+    return pick_random(['You rock!', 'Flawless victory!'])
+  };
 </script>
 
 <div class="game">
   {#if done}
     <div class="game__done">
-      <strong>{score}/{results.length}</strong>
+      <h1>{score}/{results.length}</h1>
+      <p>{feedbackMessage(score / results.length)}</p>
       <Button handleClick={handleBackHome} buttonValue={buttonHome} />
     </div>
   {:else}
@@ -84,7 +95,7 @@
 {#if result}
   <img
     class="game__result"
-    alt="{result} anser"
+    alt="{result} answer"
     src="src/assets/{result}.svg"
   />
 {/if}
@@ -122,7 +133,9 @@
     }
 
     &__done {
-      background-color: red;
+      p {
+        font-size: 2rem;
+      }
     }
   }
 
