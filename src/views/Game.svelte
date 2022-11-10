@@ -96,7 +96,7 @@
   <img
     class="game__result"
     alt="{result} answer"
-    src="src/assets/{result}.svg"
+    src="../assets/{result}.svg"
   />
 {/if}
 

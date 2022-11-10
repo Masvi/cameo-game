@@ -1,6 +1,6 @@
 import { pick_random } from "./utils";
 
-const ROUNDS_PER_GAME = 3;
+const ROUNDS_PER_GAME = 10;
 
 export const remove = (array, index) => {
   // if a 'similar' account was picked, there's no
