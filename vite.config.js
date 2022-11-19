@@ -18,6 +18,9 @@ export default defineConfig(({ command }) => ({
   ],
   publicDir: false,
   build: {
-    emptyOutDir: false,
+    sourcemap: true
   },
+  server: {
+    open: '/'
+  }
 }));
