@@ -3,7 +3,8 @@
   import { loadCelebritiesDetails } from "../api/api";
   import Button from "../components/Button.svelte";
   import { pick_random, sleep } from "../utils/utils";
-
+  import wrong from "../icon/wrong.svg";
+  import correct from "../icon/correct.svg";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -13,6 +14,7 @@
   let buttonValue = { label: "Same price" };
   let buttonHome = { label: "Back to main screen" };
   let result;
+  let logo;
 
   let i = 0;
   let done = false;
@@ -33,6 +35,7 @@
 
   const submit = async (left, right, sign) => {
     result = Math.sign(left.price - right.price) === sign ? "correct" : "wrong";
+    logo = result === "correct" ? correct : wrong;
 
     await sleep(1500);
 
@@ -49,11 +52,9 @@
   const feedbackMessage = (score) => {
     if (score < 0.5)
       return pick_random(["Ouch", `That wasn't very good`, "Must try harder"]);
-    if (score < 0.8) 
-      return pick_random(['Not bad', 'keep practicing!']);
-    if (score < 1) 
-      return pick_random(['So close!', 'Almost there!']);
-    return pick_random(['You rock!', 'Flawless victory!'])
+    if (score < 0.8) return pick_random(["Not bad", "keep practicing!"]);
+    if (score < 1) return pick_random(["So close!", "Almost there!"]);
+    return pick_random(["You rock!", "Flawless victory!"]);
   };
 </script>
 
@@ -93,11 +94,7 @@
 </div>
 
 {#if result}
-  <img
-    class="game__result"
-    alt="{result} answer"
-    src="src/icon/{result}.svg"
-  />
+  <img class="game__result" alt="{result} answer" src={logo} />
 {/if}
 
 <style lang="scss">
